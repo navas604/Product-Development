@@ -23,9 +23,10 @@ data = (download_data()
         .assign(date_time = lambda df: pd.to_datetime(df.date_time))
         .loc[lambda df: (df.date_time.dt.hour >= hour_range[0]) & (df.date_time.dt.hour < hour_range[1])]
         .loc[1:nrow]
-        .sort_values('date_time', ascending=True)
 )
 
+data['hours'] = data.date_time.dt.hour
+data = data.sort_values('hours')
 
 data
 
