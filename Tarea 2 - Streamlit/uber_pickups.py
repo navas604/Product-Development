@@ -6,9 +6,8 @@ import numpy as np
 # Uber Pickups Excercice
 """
 
-#DATA_URL = 'http://s3-us-west-2.amazonaws.com/streamlit-demo-data/uber-raw-data-sep14.csv.gz'
-#DATA_URL = '/Users/Navas/Desktop/uber-raw-data-sep14.csv'
-DATA_URL = '/Users/Navas/Desktop/uber-raw-data-sep142.csv'
+DATA_URL = 'http://s3-us-west-2.amazonaws.com/streamlit-demo-data/uber-raw-data-sep14.csv.gz'
+
 
 @st.cache(allow_output_mutation=True)
 def download_data():
@@ -26,15 +25,16 @@ data = (download_data()
         .loc[1:nrow]
 )
 
-
+data['hours'] = data.date_time.dt.hour
+data = data.sort_values('hours')
 data
+
 
 st.map(data)
 
 
 hist_values = np.histogram(data.date_time.dt.hour, bins=24, range=(0,24))[0]
 st.bar_chart(hist_values)
-
 
 
 
